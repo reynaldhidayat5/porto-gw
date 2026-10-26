@@ -15,6 +15,8 @@
   --color-muted: #6b5b4e;
 
   --container-page: 90rem; /* 1440px */
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-wipe: cubic-bezier(0.7, 0, 0.2, 1);
 }
 
 /* Font dimuat lewat next/font (app/[locale]/layout.tsx) sebagai CSS variable. */
@@ -27,6 +29,7 @@
 html {
   background: var(--color-cream);
   scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -55,6 +58,233 @@ body {
   color: var(--color-cream);
 }
 
+/* ==========================================================================
+ * MOTION — mengikuti referensi (docs/design.md §7). Semua CSS murni, tanpa
+ * library. Efek scroll memakai scroll/view timelines (progressive enhancement:
+ * browser yang belum mendukung tetap menampilkan konten statis penuh).
+ * ========================================================================== */
+
+/* --- Bentuk: pojok kanan atas terpotong miring (chamfer) --- */
+.chamfer {
+  clip-path: polygon(0 0, calc(100% - 3.5rem) 0, 100% 3.5rem, 100% 100%, 0 100%);
+}
+.tile-clip {
+  clip-path: polygon(0 0, 100% 0, 100% 0, 100% 100%, 0 100%);
+  transition: clip-path 500ms var(--ease-out-expo);
+}
+
+/* --- Tombol & tautan --- */
+.link-grow {
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 2px no-repeat;
+  transition: background-size 350ms var(--ease-out-expo), color 200ms;
+}
+.link-grow:hover,
+.link-grow[aria-current="page"] {
+  background-size: 100% 2px;
+}
+
+/* --- Kartu proyek --- */
+.card-arrow {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(-0.5rem);
+  transition: opacity 250ms, transform 450ms var(--ease-out-expo);
+}
+.card-chip {
+  transition: background-color 250ms, color 250ms, opacity 250ms;
+}
+.card:focus-within .card-arrow {
+  opacity: 1;
+  transform: none;
+}
+.card:focus-within .card-chip {
+  background: var(--color-red);
+  color: var(--color-cream);
+}
+@media (hover: hover) and (pointer: fine) {
+  .card:hover .tile-clip {
+    clip-path: polygon(0 0, calc(100% - 3rem) 0, 100% 3rem, 100% 100%, 0 100%);
+  }
+  .card:hover .card-arrow {
+    opacity: 1;
+    transform: none;
+  }
+  .card:hover .card-chip {
+    background: var(--color-red);
+    color: var(--color-cream);
+  }
+  /* Saat satu kartu di-hover, chip kartu lain meredup */
+  .project-grid:has(.card:hover) .card:not(:hover) .card-chip {
+    opacity: 0.35;
+  }
+}
+.card:focus-within .tile-clip {
+  clip-path: polygon(0 0, calc(100% - 3rem) 0, 100% 3rem, 100% 100%, 0 100%);
+}
+
+/* --- Baris daftar (Experience / Education / Skills) --- */
+.row {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.row-fill {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--color-red);
+  transform: scaleY(0);
+  transform-origin: top; /* keluar ke atas */
+  transition: transform 550ms var(--ease-wipe);
+}
+.row-text,
+.row-title {
+  transition: color 300ms, transform 550ms var(--ease-out-expo);
+}
+.row-arrow {
+  display: inline-block;
+  margin-left: 0.5rem;
+  opacity: 0;
+  transform: translateX(-0.5rem);
+  transition: opacity 250ms, transform 450ms var(--ease-out-expo);
+}
+.row-tags {
+  margin-top: 0.75rem;
+}
+@media (hover: hover) and (pointer: fine) {
+  .row-swap {
+    display: grid;
+  }
+  .row-swap > * {
+    grid-area: 1 / 1;
+  }
+  .row-tags {
+    margin-top: 0;
+    align-self: center;
+    opacity: 0;
+    transition: opacity 300ms 100ms;
+  }
+  .row-detail--swap {
+    transition: opacity 250ms;
+  }
+  .row:hover .row-fill {
+    transform: scaleY(1);
+    transform-origin: bottom; /* masuk dari bawah */
+  }
+  .row:hover .row-title {
+    color: var(--color-cream);
+    transform: translateX(0.5rem);
+  }
+  .row:hover .row-text {
+    color: var(--color-cream);
+  }
+  .row:hover .row-arrow {
+    opacity: 1;
+    transform: none;
+  }
+  .row:hover .row-tags {
+    opacity: 1;
+  }
+  .row:hover .row-detail--swap {
+    opacity: 0;
+  }
+}
+
+/* --- Header mengecil saat scroll --- */
+.site-header-inner {
+  height: 4rem;
+}
+
+/* --- Intro & reveal: hanya bila pengguna tidak meminta reduced-motion --- */
+@keyframes rise {
+  from {
+    transform: translateY(105%);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes load-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes reveal-wipe {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(1.5rem);
+  }
+  to {
+    clip-path: inset(-0.1em -0.1em -0.1em -0.1em);
+    transform: none;
+  }
+}
+@keyframes header-shrink {
+  to {
+    height: 3.25rem;
+  }
+}
+
+/* Baris wordmark: tiap kata naik dari balik masker */
+.mask-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.04em;
+}
+.mask-line > span {
+  display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mask-line > span {
+    animation: rise 1000ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 110ms + 100ms);
+  }
+  .load-in {
+    animation: load-in 800ms var(--ease-out-expo) both;
+    animation-delay: calc(var(--i, 0) * 100ms + 250ms);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
+    [data-reveal="wipe"] {
+      animation-name: reveal-wipe;
+    }
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .site-header-inner {
+      animation: header-shrink linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 140px;
+    }
+  }
+}
+
+/* Reduced motion: matikan semua transisi dan gerak */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -62,8 +292,8 @@ body {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
+    animation: none !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
 }

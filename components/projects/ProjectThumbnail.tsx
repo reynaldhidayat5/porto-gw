@@ -21,7 +21,7 @@ export function ProjectThumbnail({
 }) {
   const thumb = project.thumbnail;
   return (
-    <div className="on-dark relative aspect-[4/3] w-full overflow-hidden bg-red text-cream transition-colors duration-200 group-hover:bg-ink group-focus-within:bg-ink">
+    <div className="on-dark tile-clip relative aspect-[4/3] w-full overflow-hidden bg-red text-cream transition-colors duration-200 group-hover:bg-ink group-focus-within:bg-ink">
       {thumb ? (
         <Image
           src={thumb.src}

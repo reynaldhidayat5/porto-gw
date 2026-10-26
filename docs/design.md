@@ -1,6 +1,6 @@
 # Design Specification — Personal Developer Portfolio
 
-**Versi:** 2.0 (menggantikan arah "ivory/olive minimalism" v1.0)
+**Versi:** 2.1 (v2.0 = bold red editorial; v2.1 menambah sistem motion dan mengubah baris merah "Skills" menjadi "Experience")
 **Produk:** Personal portfolio untuk early-career developer
 **Tujuan utama:** Mendukung pencarian kerja dan memudahkan recruiter mengevaluasi kemampuan kandidat.
 
@@ -22,7 +22,7 @@ Recruiter/hiring manager, developer atau mentor yang meninjau proyek, calon kola
 
 ## 3. Visual direction — "Bold red editorial"
 
-Terinspirasi dari tata letak situs agensi kreatif (https://ueyon.framer.website/): wordmark raksasa, label bracket kecil bergaya monospace, hairline tipis, grid proyek dua kolom dengan baris keterangan, daftar keahlian berupa baris merah penuh, dan footer berisi ajakan kontak plus wordmark besar.
+Terinspirasi dari tata letak situs agensi kreatif (https://ueyon.framer.website/): wordmark raksasa, label bracket kecil bergaya monospace, hairline tipis, grid proyek dua kolom dengan baris keterangan, daftar baris interaktif (latar merah menyapu saat hover), dan footer berisi ajakan kontak plus wordmark besar.
 
 **Yang diambil:** struktur, ritme, dan hierarki tipografi (high-level inspiration).
 **Yang TIDAK boleh disalin:** nama/branding, teks, foto, ikon/ornamen khas, dan video referensi.
@@ -70,7 +70,10 @@ Aturan: jangan memakai monospace kapital untuk paragraf panjang (keterbacaan Ind
 | `Header` | `components/layout/` | Kiri: nama (mono) + tagline `// ROLE`. Kanan: nav mono, pengalih bahasa, tombol Contact. Mobile: menu |
 | `Hero` | `components/sections/Hero.tsx` | Wordmark raksasa 2 baris, kolom kanan berisi headline + CTA, lalu **panel merah** penuh |
 | `ProjectTile` / `ProjectCard` | `components/projects/` | Tile 4:3 (screenshot bila ada, tile tipografis merah bila tidak) + baris keterangan: judul kiri, tag kanan |
-| `Skills` | `components/sections/Skills.tsx` | Baris merah penuh lebar (nomor, nama display, jenis) |
+| `Rows` | `components/ui/Rows.tsx` | Daftar baris bergaya referensi: `// 01`, judul display, deskripsi kanan. Hover → latar merah menyapu, judul bergeser + panah, deskripsi berganti chip. Dipakai oleh Experience, Education, Skills |
+| `Experience` | `components/sections/Experience.tsx` | **Pengganti baris merah "Skills" di Home.** Data: `content/experience.ts`. Kosong → disembunyikan di production |
+| `Education` | `components/sections/Education.tsx` | Memakai `Rows`; tidak dirender bila data kosong |
+| `Skills` | `components/sections/Skills.tsx` | Hanya di halaman About (memakai `Rows`); Home menampilkan stack di panel merah hero |
 | `Footer` | `components/layout/Footer.tsx` | "Let's talk" + email besar, kolom tautan, wordmark raksasa |
 
 ### Pemetaan referensi → portofolio
@@ -81,7 +84,7 @@ Aturan: jangan memakai monospace kapital untuk paragraf panjang (keterbacaan Ind
 | Foto hero | Panel merah (role + stack) | Tidak memakai foto referensi |
 | About | About preview | Bio dari `content/profile.ts` |
 | Recent works | Selected projects | Data dari `content/projects.ts` |
-| Expertise | Skills (baris merah) | Hanya teknologi yang terbukti dipakai |
+| Expertise (baris interaktif) | **Experience** (`Rows`) | Isi dari `content/experience.ts`; hanya data nyata. Skills pindah ke About |
 | Showreel, testimonial, stats, awards | **Dihilangkan** | Tidak ada data nyata. Tambahkan hanya jika datanya diverifikasi |
 | Let's talk + wordmark | Footer | Email, GitHub, LinkedIn (opsional) |
 
@@ -92,7 +95,7 @@ Aturan: jangan memakai monospace kapital untuk paragraf panjang (keterbacaan Ind
 ## 6. Page specifications
 
 ### Home
-Header → Hero (wordmark, headline, CTA `View Projects` & `Download CV` bila ada, panel merah) → About preview → Selected projects (2 kolom) → Skills (baris merah) → Experience/Education (hanya bila ada data) → Footer.
+Header → Hero (wordmark, headline, CTA `View Projects` & `Download CV` bila ada, panel merah bersudut miring) → About preview → Selected projects (2 kolom) → **Experience** (`Rows`; hanya bila ada data) → Education (hanya bila ada data) → Footer.
 
 ### Projects listing
 Judul display, intro singkat, grid proyek 2 kolom. Tombol demo/repo hanya bila URL ada.
@@ -103,12 +106,32 @@ Judul & summary → meta (role, jenis, periode) → tile → blok bernomor: Cont
 ### About / Contact
 About: bio, fokus, skills, pendidikan/pengalaman (bila ada), CV (bila ada). Contact: email sebagai jalur utama, GitHub, LinkedIn (bila ada); tanpa form backend.
 
-## 7. Interaction states
+## 7. Interaction states & motion
 
+Motion meniru referensi (video demo). **Semua CSS murni** (tanpa library animasi); definisi ada di `app/globals.css` bagian MOTION. Pola yang ada — pakai ulang, jangan membuat animasi baru tanpa memperbarui bagian ini.
+
+| Efek | Kelas | Perilaku |
+| --- | --- | --- |
+| Header mengecil | `.site-header-inner` | Tinggi 64px → 52px selama 140px scroll pertama (`animation-timeline: scroll(root)`) |
+| Wordmark masuk | `.mask-line` | Tiap kata naik dari balik masker saat load, stagger 110ms |
+| Judul halaman (h1) | `.load-in` | Fade + naik 20px saat load |
+| Scroll reveal | `[data-reveal]` | Fade + naik 40px saat memasuki viewport (`view()` timeline). `data-reveal="wipe"` untuk judul section (clip-path) |
+| Chamfer | `.chamfer`, `.tile-clip` | Pojok kanan atas terpotong miring. Panel hero: permanen. Tile proyek: muncul saat hover/fokus (transisi `clip-path`) |
+| Kartu proyek hover | `.card`, `.card-arrow`, `.card-chip` | Tile → chamfer + inversi ke `ink`; judul mendapat panah `→`; chip tag terisi merah; chip kartu lain meredup (`:has`) |
+| Baris (`Rows`) hover | `.row`, `.row-fill`, `.row-title`, `.row-tags` | Latar merah menyapu **masuk dari bawah, keluar ke atas** (550ms); teks → cream; judul bergeser 8px + panah; deskripsi berganti chip |
+| Tautan | `.link-grow` | Garis bawah tumbuh dari kiri saat hover; aktif = garis penuh |
+
+Aturan motion:
+- Durasi 250–550ms (intro ≤ 1s). Easing: `--ease-out-expo` dan `--ease-wipe` (token di CSS).
+- **Progressive enhancement:** tanpa dukungan scroll/view timeline, konten tampil statis penuh. Efek hover hanya di `(hover: hover) and (pointer: fine)`; di perangkat sentuh, chip pada `Rows` tampil statis di bawah deskripsi. Jangan menyembunyikan informasi hanya karena hover.
+- `prefers-reduced-motion: reduce` mematikan semua animasi dan transisi (blok terakhir `globals.css`).
+- Jangan menganimasikan `width/height/top/left` selain header; utamakan `transform`, `opacity`, `clip-path`.
+- Tidak ada animasi yang memblokir konten utama. Jangan memakai elemen `data-reveal` pada konten yang lebih tinggi dari viewport atau pada footer.
+
+Status interaktif lain:
 - Default, hover, `focus-visible`, active, disabled untuk semua kontrol.
-- Fokus: outline 3px (`ink` di atas cream/merah; `cream` di atas ink).
-- Hover tombol merah → `ink`. Hover tile → inversi warna (merah ↔ ink).
-- Transisi ≤ 200ms; tidak ada animasi yang memblokir konten; `prefers-reduced-motion` mematikan transisi.
+- Fokus: outline 3px (`ink` di atas cream; `cream` di atas merah/ink via `.on-dark`).
+- Hover tombol merah → `ink`.
 - Language switcher mempertahankan halaman yang sepadan. Link eksternal berlabel jelas. Tombol CV menyebut bahasa dokumen.
 
 ## 8. Responsive
@@ -135,6 +158,6 @@ Metadata unik per halaman & locale; canonical; `hreflang` untuk pasangan bahasa 
 - [ ] Palet, tipografi, dan komponen sesuai §3–§4 di semua halaman.
 - [ ] Proyek lebih menonjol daripada ornamen.
 - [ ] Layout rapi di mobile, tablet, desktop; tidak ada overflow horizontal.
-- [ ] Semua interactive states ada; kontras & keyboard diuji.
+- [ ] Semua interactive states dan motion (§7) ada; kontras & keyboard diuji; reduced-motion mematikan animasi.
 - [ ] Indonesia dan Inggris setara.
 - [ ] Tidak ada placeholder, foto/teks/merek referensi, atau konten palsu saat peluncuran.

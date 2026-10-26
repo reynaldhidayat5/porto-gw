@@ -45,6 +45,8 @@ export type Experience = {
   startedAt: string;
   endedAt?: string;
   description: Localized;
+  /** Opsional: chip yang menggantikan deskripsi saat hover. */
+  tags?: string[];
 };
 
 export type Education = {

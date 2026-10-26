@@ -5,9 +5,8 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { Skills } from "@/components/sections/Skills";
-import { Timeline } from "@/components/sections/Timeline";
-import { education } from "@/content/education";
-import { experience } from "@/content/experience";
+import { Experience } from "@/components/sections/Experience";
+import { Education } from "@/components/sections/Education";
 import { profile } from "@/content/profile";
 import { getDictionary } from "@/content/translations";
 import { isLocale } from "@/lib/i18n";
@@ -41,19 +40,12 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </Section>
       <Skills locale={locale} index="02" title={t.about.skillsTitle} />
-      <Timeline
-        locale={locale}
-        id="about-timeline"
-        index="03"
-        title={`${t.about.experienceTitle} & ${t.about.educationTitle}`}
-        experience={experience}
-        education={education}
-        todoHint="Pendidikan/pengalaman belum diisi — bagian disembunyikan."
-      />
+      <Experience locale={locale} index="03" id="about-experience" />
+      <Education locale={locale} index="04" />
       {cv ? (
         <Section labelledBy="cv-title">
           <div className="grid gap-8 lg:grid-cols-12">
-            <Label index="04" className="lg:col-span-3">{t.about.cvTitle}</Label>
+            <Label index="05" className="lg:col-span-3">{t.about.cvTitle}</Label>
             <div className="lg:col-span-9">
               <h2 id="cv-title" className="sr-only">{t.about.cvTitle}</h2>
               <p className="max-w-xl text-lg text-ink">{t.about.cvText}</p>

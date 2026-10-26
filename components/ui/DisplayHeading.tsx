@@ -18,7 +18,7 @@ const sizes = {
 export function DisplayHeading({ level = 2, size = "lg", id, children, className = "" }: Props) {
   const Tag = level === 1 ? "h1" : "h2";
   return (
-    <Tag id={id} className={`font-display uppercase tracking-[-0.02em] text-red text-balance [overflow-wrap:anywhere] ${sizes[size]} ${className}`}>
+    <Tag id={id} data-reveal={level === 1 ? undefined : "wipe"} className={`${level === 1 ? "load-in " : ""}font-display uppercase tracking-[-0.02em] text-red text-balance [overflow-wrap:anywhere] ${sizes[size]} ${className}`}>
       {children}
     </Tag>
   );

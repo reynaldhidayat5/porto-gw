@@ -31,7 +31,7 @@ export function Hero({ locale }: { locale: Locale }) {
         </div>
 
         {/* Panel merah: pengganti foto hero. Berisi role dan stack, tanpa klaim baru. */}
-        <div className="on-dark mt-14 flex min-h-[22rem] flex-col justify-between bg-red p-5 text-cream sm:min-h-[26rem] sm:p-8 lg:mt-20 lg:min-h-[30rem]">
+        <div className="on-dark chamfer mt-14 flex min-h-[22rem] flex-col justify-between bg-red p-5 text-cream sm:min-h-[26rem] sm:p-8 lg:mt-20 lg:min-h-[30rem]">
           <p className="font-mono text-xs font-medium uppercase tracking-[0.04em]">[{t.home.roleLabel}]</p>
           <p className="font-display text-[clamp(2.5rem,9.5vw,9rem)] uppercase leading-[0.9] tracking-[-0.02em] text-balance">
             {profile.role[locale]}

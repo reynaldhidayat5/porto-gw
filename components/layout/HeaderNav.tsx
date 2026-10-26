@@ -48,9 +48,7 @@ export function HeaderNav({ locale, items, labels }: Props) {
             <Link
               href={item.href}
               aria-current={isActive(item) ? "page" : undefined}
-              className={`${mono} inline-flex min-h-11 items-center text-red hover:text-ink ${
-                isActive(item) ? "underline decoration-2 underline-offset-8" : ""
-              }`}
+              className={`${mono} link-grow inline-flex min-h-11 items-center text-red hover:text-ink`}
             >
               {item.label}
             </Link>

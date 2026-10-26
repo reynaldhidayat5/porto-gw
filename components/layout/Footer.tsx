@@ -7,7 +7,7 @@ import { getDictionary } from "@/content/translations";
 import { profile } from "@/content/profile";
 
 const linkCls =
-  "inline-flex min-h-11 items-center font-mono text-xs font-medium uppercase tracking-[0.04em] text-ink underline-offset-4 hover:text-red hover:underline active:text-red";
+  "link-grow inline-flex min-h-11 items-center self-start font-mono text-xs font-medium uppercase tracking-[0.04em] text-ink hover:text-red active:text-red";
 
 export function Footer({ locale }: { locale: Locale }) {
   const t = getDictionary(locale);
@@ -70,7 +70,7 @@ export function Footer({ locale }: { locale: Locale }) {
         </div>
 
         <div className="mt-16 flex flex-col gap-6 lg:mt-24">
-          <Wordmark name={profile.fullName} />
+          <Wordmark name={profile.fullName} animated={false} />
           <p className="font-mono text-xs uppercase tracking-[0.04em] text-muted">
             © {year} {profile.fullName} — {t.footer.rights}
           </p>

@@ -51,7 +51,7 @@ hreflang, sitemap, robots.txt, and 404 handling.
 
 ## 4. Design rules
 
-**Sumber kebenaran: `docs/design.md` (v2.0). Baca sebelum mengubah UI apa pun.**
+**Sumber kebenaran: `docs/design.md` (v2.1). Baca sebelum mengubah UI apa pun.**
 Jika sebuah perintah mengubah arah desain, perbarui `docs/design.md` dan bagian ini
 pada perubahan yang sama agar dokumen tidak pernah tertinggal dari kode.
 
@@ -69,12 +69,20 @@ pada perubahan yang sama agar dokumen tidak pernah tertinggal dari kode.
     monospace kapital untuk paragraf panjang.
 -   Layout: max-width 1440px, gutter 20/32px, sudut tajam (radius 0), tombol kotak,
     tile proyek rasio 4:3, spasi skala 4/8px.
--   Reuse komponen: `Label`, `DisplayHeading`, `Button`, `Hero`, `ProjectCard`,
-    `Skills`, `Header`, `Footer`. Jangan membuat gaya satu-kali di halaman.
+-   Reuse komponen: `Label`, `DisplayHeading`, `Button`, `Rows`, `Hero`, `ProjectCard`,
+    `Experience`, `Education`, `Skills` (hanya About), `Header`, `Footer`. Jangan membuat gaya satu-kali di halaman.
 -   Referensi (https://ueyon.framer.website/) hanya inspirasi struktur dan ritme.
     Jangan menyalin nama, teks, foto, ikon khas, atau video. Bagian referensi yang
     tidak punya data nyata (showreel, testimonial, statistik, penghargaan) tidak
     dibuat.
+-   Motion: ikuti tabel di `docs/design.md` §7 (header mengecil saat scroll, wordmark
+    naik dari masker, scroll reveal, chamfer + panah + chip pada kartu proyek, baris
+    `Rows` dengan latar merah menyapu). Semua CSS murni di `app/globals.css`; tanpa
+    library animasi. Progressive enhancement dan `prefers-reduced-motion` wajib.
+    Jangan menyembunyikan informasi hanya di balik hover.
+-   Home memakai **Experience** (bukan Skills) sebagai baris interaktif; Skills hanya
+    di About. Experience/Education hanya dirender bila `content/experience.ts` /
+    `content/education.ts` berisi data nyata.
 -   Hindari gradient, glassmorphism, bayangan dekoratif, dan animasi yang tidak perlu.
 -   Semua kontrol punya hover, active, dan `focus-visible` yang jelas.
 -   Hormati `prefers-reduced-motion`; target WCAG 2.2 AA; uji responsif mobile dulu.

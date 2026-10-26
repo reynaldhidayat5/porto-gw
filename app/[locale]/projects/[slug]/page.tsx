@@ -88,7 +88,7 @@ export default async function ProjectPage({ params }: Props) {
           ))}
         </dl>
 
-        <div className="group mt-12">
+        <div className="card group mt-12">
           <ProjectThumbnail project={project} locale={l} emptyLabel={t.projects.noThumbnail} priority />
         </div>
       </Section>
