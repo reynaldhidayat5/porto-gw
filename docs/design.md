@@ -68,7 +68,7 @@ Aturan: jangan memakai monospace kapital untuk paragraf panjang (keterbacaan Ind
 | `DisplayHeading` | `components/ui/DisplayHeading.tsx` | Judul display besar (h1/h2) |
 | `Button` | `components/ui/Button.tsx` | Varian `primary` (merah solid), `secondary` (outline merah), `text` |
 | `Header` | `components/layout/` | Kiri: nama (mono) + tagline `// ROLE`. Kanan: nav mono, pengalih bahasa, tombol Contact. Mobile: menu |
-| `Hero` | `components/sections/Hero.tsx` | Wordmark raksasa 2 baris, kolom kanan berisi headline + CTA, lalu **panel merah** penuh |
+| `Hero` | `components/sections/Hero.tsx` | Wordmark raksasa 2 baris, kolom kanan berisi headline + CTA, lalu **panel merah bersudut miring** berisi **foto potret transparan** (bawah-tengah; `profile.photo`). Label `[ROLE]` di kiri atas, daftar stack di kiri bawah. Tanpa foto → teks role besar sebagai fallback |
 | `ProjectTile` / `ProjectCard` | `components/projects/` | Tile 4:3 (screenshot bila ada, tile tipografis merah bila tidak) + baris keterangan: judul kiri, tag kanan |
 | `Rows` | `components/ui/Rows.tsx` | Daftar baris bergaya referensi: `// 01`, judul display, deskripsi kanan. Hover → latar merah menyapu, judul bergeser + panah, deskripsi berganti chip. Dipakai oleh Experience, Education, Skills |
 | `Experience` | `components/sections/Experience.tsx` | **Pengganti baris merah "Skills" di Home.** Data: `content/experience.ts`. Kosong → disembunyikan di production |
@@ -81,7 +81,7 @@ Aturan: jangan memakai monospace kapital untuk paragraf panjang (keterbacaan Ind
 | Bagian referensi | Di portofolio | Catatan |
 | --- | --- | --- |
 | Wordmark + tagline | Hero | Nama pemilik, bukan merek referensi |
-| Foto hero | Panel merah (role + stack) | Tidak memakai foto referensi |
+| Foto hero | Panel merah dengan foto potret pemilik (`public/images/profile/portrait.png`) | Foto milik pemilik, bukan foto referensi. PNG transparan, rasio ±3:4 |
 | About | About preview | Bio dari `content/profile.ts` |
 | Recent works | Selected projects | Data dari `content/projects.ts` |
 | Expertise (baris interaktif) | **Experience** (`Rows`) | Isi dari `content/experience.ts`; hanya data nyata. Skills pindah ke About |

@@ -34,6 +34,7 @@ const id = {
   home: {
     eyebrow: "Tersedia untuk kesempatan kerja",
     roleLabel: "Peran",
+    photoAlt: "Foto potret",
     featuredTitle: "Karya pilihan",
     featuredIntro: "Studi kasus singkat tentang apa yang saya bangun dan bagaimana saya memutuskannya.",
     skillsTitle: "Keahlian",
@@ -139,6 +140,7 @@ const en: typeof id = {
   home: {
     eyebrow: "Open to work",
     roleLabel: "Role",
+    photoAlt: "Portrait of",
     featuredTitle: "Selected work",
     featuredIntro: "Short case studies on what I built and how I made the decisions.",
     skillsTitle: "Skills",

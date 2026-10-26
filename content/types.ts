@@ -5,6 +5,8 @@ export type Profile = {
   role: Localized;
   headline: Localized;
   bio: Localized;
+  /** Foto potret (PNG transparan, di public/). Tanpa ini panel hero menampilkan teks role. */
+  photo?: { src: string; width: number; height: number };
   email: string;
   githubUrl: string;
   /** Opsional: tombol/link hanya muncul bila diisi. */
