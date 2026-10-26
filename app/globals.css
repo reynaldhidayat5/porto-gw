@@ -1,26 +1,69 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Design tokens — "Bold red editorial" (lihat docs/design.md v2.0, §3).
+ * Kontras (WCAG 2.2 AA):
+ *   ink   / cream  15.95:1   teks bacaan
+ *   red   / cream   4.71:1   display, label, link, tombol (cream di atas red sama: 4.71:1)
+ *   muted / cream   5.49:1   teks sekunder
+ *   red   / ink     3.39:1   HANYA teks besar (>= 24px)
+ */
+@theme {
+  --color-cream: #f8ebcb;
+  --color-red: #d20600;
+  --color-ink: #111111;
+  --color-muted: #6b5b4e;
+
+  --container-page: 90rem; /* 1440px */
 }
 
+/* Font dimuat lewat next/font (app/[locale]/layout.tsx) sebagai CSS variable. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-display: var(--font-archivo-black), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-cream);
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Fokus keyboard yang selalu terlihat */
+:focus-visible {
+  outline: 3px solid var(--color-ink);
+  outline-offset: 3px;
+}
+
+/* Di atas panel merah / blok gelap, fokus memakai cream */
+.on-dark :focus-visible,
+.on-dark:focus-visible {
+  outline-color: var(--color-cream);
+}
+
+::selection {
+  background: var(--color-red);
+  color: var(--color-cream);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

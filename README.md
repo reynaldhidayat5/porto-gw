@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portfolio — Reynald Hidayat
 
-## Getting Started
+Portofolio pribadi dua bahasa (Indonesia/Inggris) berbasis **Next.js App Router**, **TypeScript**, dan **Tailwind CSS v4**. Konten statis dan lokal; tanpa database, CMS, atau backend.
 
-First, run the development server:
+Spesifikasi: [`CLAUDE.md`](./CLAUDE.md) · [`docs/design.md`](./docs/design.md) · [`docs/plan.md`](./docs/plan.md) · [`docs/erd.md`](./docs/erd.md)
+
+## Menjalankan
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000  (/ -> /id)
+npm run lint
+npx tsc --noEmit
+npm run build && npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Rute
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`/id`, `/en`, `/{id|en}/projects`, `/{id|en}/projects/[slug]`, `/{id|en}/about`, `/{id|en}/contact`, `sitemap.xml`, `robots.txt`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Mengisi konten (semua di `content/`)
 
-## Learn More
+| File | Isi |
+| --- | --- |
+| `profile.ts` | Nama, role, bio, email, GitHub, **LinkedIn (opsional)**, **CV (opsional)**, skills |
+| `projects.ts` | Proyek + studi kasus dua bahasa. Tambahkan `thumbnail`, `demoUrl`, `contribution` |
+| `experience.ts`, `education.ts` | Kosong = bagian disembunyikan |
+| `translations.ts` | Teks UI id/en (tipe memastikan keduanya lengkap) |
 
-To learn more about Next.js, take a look at the following resources:
+- Letakkan CV di `public/cv/` (mis. `cv-id.pdf`, `cv-en.pdf`) lalu isi `profile.cvUrl`.
+- Letakkan screenshot di `public/images/projects/` lalu isi `thumbnail`.
+- Tombol demo/repositori/CV/LinkedIn **hanya muncul bila URL diisi**.
+- Item yang belum diisi menampilkan kotak **TODO hanya saat development**; tidak pernah tampil di production.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Variabel | Fungsi |
+| --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Domain final untuk canonical, hreflang, sitemap, OG (mis. `https://domainanda.com`) |
 
-## Deploy on Vercel
+Di Vercel, deploy *preview* otomatis `noindex` dan `robots.txt` melarang crawling.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Palet & kontras
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Lihat `docs/design.md` §3 (cream `#F8EBCB`, red `#D20600`, ink `#111111`).
