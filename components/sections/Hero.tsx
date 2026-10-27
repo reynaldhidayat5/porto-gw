@@ -15,7 +15,7 @@ export function Hero({ locale }: { locale: Locale }) {
     <section aria-labelledby="hero-title" className="pb-20 pt-10 sm:pt-14 lg:pb-32">
       <Container>
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
-          <Wordmark as="h1" id="hero-title" name={profile.fullName} className="lg:col-span-8" />
+          <Wordmark as="h1" id="hero-title" name={profile.shortName} className="lg:col-span-8" />
           <div className="flex flex-col gap-6 lg:col-span-4 lg:pb-3">
             <Label>{t.home.eyebrow}</Label>
             <p className="max-w-md text-lg text-ink sm:text-xl">{profile.headline[locale]}</p>
@@ -41,7 +41,7 @@ export function Hero({ locale }: { locale: Locale }) {
               height={profile.photo.height}
               alt={`${t.home.photoAlt} ${profile.fullName}`}
               priority
-              sizes="(min-width: 1024px) 410px, 320px"
+              sizes="(min-width: 1024px) 600px, 460px"
               className="load-in absolute bottom-0 left-1/2 h-full w-auto max-w-none -translate-x-1/2 object-contain object-bottom"
             />
           ) : (

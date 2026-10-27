@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { Label } from "@/components/ui/Label";
-import { Wordmark } from "@/components/ui/Wordmark";
 import { localePath, type Locale } from "@/lib/i18n";
 import { getDictionary } from "@/content/translations";
 import { profile } from "@/content/profile";
@@ -69,8 +68,7 @@ export function Footer({ locale }: { locale: Locale }) {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-6 lg:mt-24">
-          <Wordmark name={profile.fullName} animated={false} />
+        <div className="mt-16 lg:mt-24">
           <p className="font-mono text-xs uppercase tracking-[0.04em] text-muted">
             © {year} {profile.fullName} — {t.footer.rights}
           </p>

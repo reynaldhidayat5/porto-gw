@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Archivo_Black, Geist, Geist_Mono } from "next/font/google";
+import { Geist } from "next/font/google";
+import localFont from "next/font/local";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import "../globals.css";
@@ -11,8 +12,17 @@ import { isLocale, locales } from "@/lib/i18n";
 import { getSiteUrl } from "@/lib/site";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"], display: "swap" });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], display: "swap" });
-const archivoBlack = Archivo_Black({ variable: "--font-archivo-black", subsets: ["latin"], weight: "400", display: "swap" });
+const geistMono = localFont({
+  src: "../fonts/GeistMono-Variable.ttf",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+  display: "swap",
+});
+const jaro = localFont({
+  src: "../fonts/Jaro-Variable.ttf",
+  variable: "--font-jaro",
+  display: "swap",
+});
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -35,7 +45,7 @@ export default async function LocaleLayout({
   const t = getDictionary(locale);
 
   return (
-    <html lang={locale} className={`${geistSans.variable} ${geistMono.variable} ${archivoBlack.variable} h-full`}>
+    <html lang={locale} className={`${geistSans.variable} ${geistMono.variable} ${jaro.variable} h-full`}>
       <body className="flex min-h-full flex-col">
         <a
           href="#main"

@@ -17,7 +17,7 @@ export function Wordmark({
   return (
     <Tag
       id={id}
-      className={`font-display uppercase leading-[0.86] tracking-[-0.03em] text-red text-[15vw] lg:text-[length:min(10.5vw,10rem)] ${className}`}
+      className={`font-display uppercase leading-[0.86] tracking-[-0.03em] text-red text-[24vw] lg:text-[length:min(14vw,14rem)] ${className}`}
     >
       {name.split(" ").map((word, i) =>
         animated ? (

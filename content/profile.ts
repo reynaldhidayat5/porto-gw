@@ -8,6 +8,8 @@ import type { Profile } from "./types";
  */
 export const profile: Profile = {
   fullName: "Reynald Hidayat",
+  /** Nama pendek untuk header & hero. */
+  shortName: "Reynald",
   role: {
     id: "Pengembang Web",
     en: "Web Developer",
@@ -20,7 +22,7 @@ export const profile: Profile = {
     id: "Pengembang web tahap awal karier yang bekerja dengan Next.js, TypeScript, dan Tailwind CSS. Saat ini saya mencari kesempatan kerja untuk terus belajar dan berkontribusi pada produk nyata.",
     en: "An early-career web developer working with Next.js, TypeScript and Tailwind CSS. I am currently looking for an opportunity to keep learning and contribute to real products.",
   },
-  photo: { src: "/images/profile/portrait.png", width: 433, height: 577 },
+  photo: { src: "/images/profile/portrait.png", width: 895, height: 634 },
   email: "reynaldhidayat5@gmail.com",
   githubUrl: "https://github.com/reynaldhidayat5",
   // linkedinUrl: "https://www.linkedin.com/in/...",

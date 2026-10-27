@@ -2,6 +2,8 @@ import type { Localized } from "@/lib/i18n";
 
 export type Profile = {
   fullName: string;
+  /** Nama pendek untuk header & hero. */
+  shortName: string;
   role: Localized;
   headline: Localized;
   bio: Localized;
