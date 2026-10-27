@@ -14,7 +14,7 @@ const sizes = {
   lg: "text-[clamp(2.5rem,7vw,6rem)] leading-[0.92]",
 };
 
-/** Judul display: Archivo Black, kapital, rapat. Satu `h1` per halaman. */
+/** Judul display: Jaro, kapital, rapat. Satu `h1` per halaman. */
 export function DisplayHeading({ level = 2, size = "lg", id, children, className = "" }: Props) {
   const Tag = level === 1 ? "h1" : "h2";
   return (

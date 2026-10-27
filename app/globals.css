@@ -21,9 +21,9 @@
 
 /* Font dimuat lewat next/font (app/[locale]/layout.tsx) sebagai CSS variable. */
 @theme inline {
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
-  --font-display: var(--font-jaro), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jaro), var(--font-geist-mono), ui-monospace, monospace;
 }
 
 html {
